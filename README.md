@@ -2,6 +2,7 @@
 
 Secure Cloud, Real Rewards.
 
+Zuno Network
 https://ZunoNetwork.com
 
 Zuno-Backup
