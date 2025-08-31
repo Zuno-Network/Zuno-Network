@@ -1,0 +1,12 @@
+{
+  "node1": {
+    "token": "ed906d935bcaf857f6f5c85e223495339279f6d45e973b5a71276bea3cbe741c",
+    "created": "2025-08-31T12:44:00Z",
+    "expires": "2025-09-30T00:00:00Z"
+  },
+  "node2": {
+    "token": "c4e1f8a7d3b9e2c6a1f0d3e5b7c8a9f1e2d3c4b5a6f7e8d9c0b1a2d3e4f5a6b7",
+    "created": "2025-08-31T12:45:00Z",
+    "expires": "2025-09-30T00:00:00Z"
+  }
+}

@@ -1,52 +1,34 @@
 <?php
-define('TOKEN_STORE', '/var/zuno/tokens.json');
+declare(strict_types=1);
 
-// Load token store
-$tokens = json_decode(file_get_contents(TOKEN_STORE), true);
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/utils.php';
 
-// Extract token from Authorization header
-$auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-if (!preg_match('/Bearer\s+([a-f0-9]{64})/', $auth, $matches)) {
-    http_response_code(401);
-    exit('Missing or invalid token');
-}
+$nodeId = validateToken();
+$manifestPath = __DIR__ . "/manifest_{$nodeId}.json";
 
-$token = $matches[1];
-$nodeId = null;
-
-// Validate token and resolve node
-foreach ($tokens as $id => $data) {
-    if ($data['token'] === $token) {
-        if (strtotime($data['expires']) < time()) {
-            http_response_code(403);
-            exit('Token expired');
-        }
-        $nodeId = $id;
-        break;
-    }
-}
-
-if (!$nodeId) {
-    http_response_code(403);
-    exit('Token not recognized');
-}
-
-// Validate CID
-$cid = $_GET['cid'] ?? '';
-if (!preg_match('/^[a-zA-Z0-9_-]+$/', $cid)) {
-    http_response_code(400);
-    exit('Invalid CID');
-}
-
-// Build file path with .dat extension
-$path = "/var/zuno/nodes/$nodeId/$cid.dat";
-if (!file_exists($path)) {
+try {
+    $manifest = json_load($manifestPath);
+} catch (RuntimeException $e) {
     http_response_code(404);
-    exit('Chunk not found');
+    exit($e->getMessage());
 }
 
-// Serve file
-header('Content-Type: application/octet-stream');
-header('Content-Length: ' . filesize($path));
-header('Content-Disposition: attachment; filename="' . basename($path) . '"');
-readfile($path);
+[$key, $meta] = manifest_next_pending($manifest);
+if ($key === null) {
+    http_response_code(204);
+    exit;
+}
+
+$filePath = $meta['file_path'] ?? '';
+if ($filePath === '' || !is_file($filePath)) {
+    manifest_mark($manifest, $key, 'failed', client_ip());
+    json_save($manifestPath, $manifest);
+    http_response_code(410); // Gone / inconsistent manifest
+    exit("File missing: $filePath");
+}
+
+$ok = serve_file($filePath, basename($key));
+manifest_mark($manifest, $key, $ok ? 'done' : 'failed', client_ip());
+json_save($manifestPath, $manifest);
+exit;
