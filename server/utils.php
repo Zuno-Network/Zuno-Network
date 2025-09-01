@@ -28,6 +28,8 @@ function serve_file(string $filePath, string $downloadName): bool {
     return readfile($filePath) !== false;
 }
 
+
+
 /**
  * Finds the first pending manifest entry. Returns [key, meta] or [null, null].
  */

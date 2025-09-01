@@ -6,7 +6,6 @@ require_once __DIR__ . '/utils.php';
 
 
 $nodeId = validateToken();
-
 $manifestPath = __DIR__ . "/manifest_{$nodeId}.json";
 
 try {
@@ -15,7 +14,6 @@ try {
     http_response_code(404);
     exit($e->getMessage());
 }
-
 
 [$key, $meta] = manifest_next_pending($manifest);
 if ($key === null) {
@@ -31,12 +29,11 @@ if ($filePath === '' || !is_file($filePath)) {
     exit("File missing: $filePath");
 }
 
-$ok = serve_file($filePath, $key);
+$ok = serve_file($filePath, basename($key));
 manifest_mark($manifest, $key, $ok ? 'done' : 'failed', client_ip());
 json_save($manifestPath, $manifest);
 
 if (!$ok) {
     error_log("Failed to stream file: $filePath for node $nodeId");
 }
-    
 exit;

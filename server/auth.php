@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-define('TOKEN_STORE', __DIR__ . '/var/zuno/node_auth.json');
+define('TOKEN_STORE', __DIR__ . '/node_auth.json');
+
 
 /**
  * Validates the Bearer token and returns the resolved node ID (e.g., "node1").
