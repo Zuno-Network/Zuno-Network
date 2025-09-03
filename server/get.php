@@ -4,10 +4,9 @@ declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/utils.php';
 
-
 $nodeId = validateToken();
+$manifestPath = "/var/zuno/manifest_{$nodeId}.json";
 
-$manifestPath = __DIR__ . "/manifest_{$nodeId}.json";
 
 try {
     $manifest = json_load($manifestPath);

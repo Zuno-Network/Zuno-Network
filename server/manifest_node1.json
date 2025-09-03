@@ -5,10 +5,10 @@
     "last_time_downloaded": null,
     "IP_address_downloaded": null
   },
-  "QmQmVbFh9BurrxYPwuVoKediFGvyVYanvG1h5dXYNmf1yrfn.dat": {
-    "file_path": "/var/zuno/node1/QmQmVbFh9BurrxYPwuVoKediFGvyVYanvG1h5dXYNmf1yrfn.dat",
-    "status": "done",
-    "last_time_downloaded": "2025-08-31T23:12:00Z",
-    "IP_address_downloaded": "203.0.113.42"
+  "QmQmYxZMFxA7cFkea4jyTE7JtrDKP6MYVb7Tok7NC1vbaXFT.dat": {
+    "file_path": "/var/zuno/node1/QmQmYxZMFxA7cFkea4jyTE7JtrDKP6MYVb7Tok7NC1vbaXFT.dat",
+    "status": "pending",
+    "last_time_downloaded": null,
+    "IP_address_downloaded": null
   }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-define('TOKEN_STORE', __DIR__ . '/node_auth.json');
+define('TOKEN_STORE', '/var/zuno/node_auth.json');
 
 
 /**
